@@ -1,0 +1,419 @@
+﻿@model OAuthJwtTestbed.Controllers.ConfigValues;
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+@functions{
+    public string GetUsername()
+    {
+        string[] names = User.Identity.Name.Split('\\');
+        if (names != null && names.Length > 1)
+        {
+            return names[1];
+        }
+        return "";
+    }
+}
+<div class="container-fluid">
+    <h2>TokenHelper Testbed</h2>
+    <p class="lead">This simple testbed allows the developer to clearly see how to use the various helper classes.</p>
+    <p>
+    </p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="card border-secondary mb-3">
+                    <div class="card-header"><h4>1. OAuth Retrieval</h4></div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="buttonGetOAuth btn btn-info float-right">Get OAuth Token</button>
+                                    <form>
+
+                                        <legend>Configuration</legend>
+                                        <div class="form-group">
+                                            <label for="OAuthEndPoint">OAuth Endpoint</label>
+                                            @*<input type="text" class="form-control" id="OAuthEndPoint" placeholder="https://" value="@Model.OAuthEndpointUrl">*@
+                                            <textarea class="form-control" id="OAuthEndPoint" rows="2" placeholder="https://" wrap="soft">@Model.OAuthEndpointUrl</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ClientId">ClientId</label>
+                                            <input type="text" class="form-control" id="ClientId" value="@Model.OAuthClientId">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Secret">Secret</label>
+                                            <input type="text" class="form-control" id="Secret" value="@Model.OAuthSecret">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="Scope">Scope</label>
+                                                <input type="text" class="form-control" id="Scope" value="@Model.OAuthScope">
+                                            </div>
+                                            <div class="form-group col-md-6">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label"><input type="radio" class="form-check-input" name="optionTestMachine" id="optionsRadios1" value="optionTestMachineDesktop" checked="">Testing on Desktop</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="optionTestMachine" id="optionsRadios2" value="optionTestMachineServer">
+                                                Testing on Server
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <label class="custom-control-label" for="customSwitch1">Certificate Is Required</label>
+                                            </div>
+                                        </div>
+                                        @*<fieldset class="form-group">
+                                                <div class="custom-control custom-switch">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" id="customSwitch1" checked="">
+                                                        Certificate Is Required
+                                                    </label>
+                                                </div>
+                                            </fieldset>*@
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="Issuer">Certificate Issuer Authority</label>
+                                                <input type="text" class="form-control" id="Issuer" placeholder="(Required if Cert Required)" value="Tester Issuing CA">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="Username">Username</label>
+                                                <input type="text" class="form-control" id="Username" placeholder="(Required for desktops)" value="@GetUsername()">
+                                            </div>
+                                        </div>
+                                        </fieldset>
+                                    </form>
+                                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                        <button type="button" class="buttonCopyOAuth btn btn-info float-right" disabled>Copy OAuth</button>
+                                    </div>
+                                    <legend>Results</legend>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="OAuthToken" rows="8"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="card border-secondary mb-3">
+                    <div class="card-header"><h4>2. Jwt Retrieval</h4></div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="buttonGetJwt btn btn-info float-right">Get Jwt</button>
+                                    <form>
+                                        <legend>Configuration</legend>
+                                        <div class="form-group">
+                                            <label for="StsEndPoint">STS Endpoint</label>
+                                            @*<input type="text" class="form-control" id="StsEndPoint" placeholder="https://" value="@Model.StsEndpointUrl">*@
+                                            <textarea class="form-control" id="StsEndPoint" rows="2" placeholder="https://" wrap="soft">@Model.StsEndpointUrl</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="OAuthToken">OAuth Token</label>
+                                            <input type="text" class="form-control" id="OAuthTokenForJwt" placeholder="">
+                                        </div>
+                                    </form>
+                                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                        <button type="button" class="buttonCopyJwt btn btn-info float-right" disabled>Copy Jwt</button>
+                                        @*<button type="button" class="buttonCopyOAuth btn btn-info float-right" disabled>Copy OAuth</button>*@
+                                    </div>
+                                    <legend>Results</legend>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="JwtToken" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mb-3">
+                    <div class="card-header">
+                        <h4>3. Call Api</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <form>
+
+                                        <legend></legend>
+                                        <div class="form-group">
+                                            <label for="ApiEndPoint">Api Endpoint</label>
+                                            @*<input type="text" class="form-control" id="ApiEndPoint" placeholder="https://" value="@Model.ApiEndpointUrl">*@
+                                            <textarea class="form-control" id="ApiEndPoint" rows="2" placeholder="https://" wrap="soft">@Model.ApiEndpointUrl</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="JwtTokenForApi">Jwt Token</label>
+                                            <input type="text" class="form-control" id="JwtTokenForApi" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="JwtTokenForApi">OAuth Token</label>
+                                            <input type="text" class="form-control" id="OAuthTokenForApi" placeholder="">
+                                        </div>
+                                        @*<div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label for="ClientId">Key</label>
+                                                    <input type="text" class="form-control" id="ClientId1" value="">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="Secret">Value</label>
+                                                    <input type="text" class="form-control" id="Secret1" value="">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="ClientId">Key</label>
+                                                    <input type="text" class="form-control" id="ClientId2" value="">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="Secret">Value</label>
+                                                    <input type="text" class="form-control" id="Secret2" value="">
+                                                </div>
+                                            </div>*@
+
+                                        @*<div class="form-group">
+                                                <label for="ApiResults">Results</label>
+                                                <div class="btn-group btn-group-xs float-xl-right" role="group" aria-label="Basic example">
+                                                    <button type="button" class="buttonCallApi  btn-xs btn btn-info">Call w/Jwt</button>
+                                                    @*<button type="button" class="buttonCallApi2 btn btn-info float-right">Call Api w/Ajax</button>
+                                                    <button type="button" class="buttonCallApiOAuth btn-xs btn btn-info">Call w/OAuth</button>
+                                                </div>
+                                                <textarea class="form-control" id="ApiResults" rows="3"></textarea>
+                                            </div>*@
+                                    </form>
+                                    <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                        <button type="button" class="buttonCallApi  btn-xs btn btn-info">Jwt Call</button>
+                                        @*<button type="button" class="buttonCallApi2 btn btn-info float-right">Call Api w/Ajax</button>*@
+                                        <button type="button" class="buttonCallApiOAuth btn-xs btn btn-info">OAuth Call</button>
+                                    </div>
+                                    <legend>Results</legend>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="ApiResults" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+</div>
+
+<script lang="en" type="text/javascript">
+    //api cors
+    $.support.cors = true;
+
+    $('.buttonGetOAuth').click(function () {
+        console.log('.buttonGetOAuth');
+        GetOAuthToken();
+    });
+    function GetOAuthToken() {
+
+        var getOAuthTokenParams = {
+            "oauthEndpointUrl": $('#OAuthEndPoint').val(),
+            "clientId": $('#ClientId').val(),
+            "secret": $('#Secret').val(),
+            "scope": $('#Scope').val(),
+            "certIssuerName": $('#Issuer').val(),
+            "username": $('#Username').val()
+        };
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            async: true,
+            cache: false,
+            url: '/Home/GetOAuthTokenAsync',
+            //context: document.body,
+            data: getOAuthTokenParams,
+            success: function (data) {
+                console.log(data);
+                $('#OAuthToken').val(data);
+                if (data.substring(0, 5) == 'ERROR') {
+                    $('.buttonCopyOAuth').prop("disabled", true);
+                }
+                else {
+                    var parsedData = jQuery.parseJSON(data);
+
+                    console.log(parsedData.access_token);
+                    $('#OAuthTokenForJwt').val(parsedData.access_token);
+                    $('#OAuthTokenForApi').val(parsedData.access_token);
+                    $('.buttonCopyOAuth').prop("disabled", false);
+                }
+
+            },
+            error: function (xhr) {
+                //debugger;
+                console.log(xhr.responseText);
+                console.log("Error has occurred..");
+                $('.buttonCopyOAuth').prop("disabled", true);
+            }
+        });
+    }
+    $('.buttonGetJwt').click(function () {
+        console.log('.buttonGetJwt');
+        GetJwtToken();
+    });
+    function GetJwtToken() {
+
+        var getOAuthTokenParams = {
+            "stsEndpointUrl": $('#StsEndPoint').val(),
+            "oauthToken": $('#OAuthTokenForJwt').val()
+        };
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            async: true,
+            cache: false,
+            url: '/Home/GetJwtUsingOAuthAsync',
+            //context: document.body,
+            data: getOAuthTokenParams,
+            success: function (data) {
+                console.log(data);
+                $('#JwtToken').val(data);
+                $('#JwtTokenForApi').val(data);
+                $('.buttonCopyJwt').prop("disabled", false);
+            },
+            error: function (xhr) {
+                //debugger;
+                console.log(xhr.responseText);
+                console.log("Error has occurred..");
+                $('.buttonCopyJwt').prop("disabled", true);
+            }
+        });
+    }
+    $('.buttonCopyJwt').click(function () {
+        console.log('.buttonGetOAuth');
+        var copyText = document.getElementById("JwtToken");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+    });
+    $('.buttonCopyOAuth').click(function () {
+        console.log('.buttonGetOAuth');
+        var copyText = document.getElementById("OAuthToken");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+    });
+    $('.buttonCallApi').click(function () {
+        console.log('.buttonCallApi');
+        CallApi();
+    });
+    function CallApi() {
+
+        var apiParams = {
+            "ApiEndpointUrl": $('#ApiEndPoint').val(),
+            "token": $('#JwtTokenForApi').val()
+        };
+        //console.log(JSON.stringify(apiParams));
+
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            data: apiParams,
+            async: true,
+            cache: false,
+            url: '/Home/CallApiWithBearerTokenAsync',
+            success: function (data) {
+                console.log(data);
+                $('#ApiResults').val(data);
+            },
+            error: function (xhr) {
+                //debugger;
+                console.log(xhr.responseText);
+                console.log("Error has occurred..");
+            }
+        });
+    }
+    $('.buttonCallApi2').click(function () {
+        console.log('.buttonCallApi2');
+        CallApi2();
+    });
+    function CallApi2() {
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            async: true,
+            cache: false,
+            url: '@Model.ApiEndpointUrl',
+            beforeSend: function (xhr) {
+                /* Authorization header */
+                xhr.setRequestHeader("Authorization", "Bearer " + $('#JwtTokenForApi').val());
+            },
+            success: function (data) {
+                console.log(data);
+                $('#ApiResults').val(data);
+            },
+            error: function (xhr) {
+                //debugger;
+                $('#ApiResults').val(xhr.responseText);
+                console.log(xhr.responseText);
+                //console.log("Error has occurred..");
+            }
+        });
+
+    }
+    $('.buttonCallApiOAuth').click(function () {
+        console.log('.buttonCallApiOAuth');
+        CallApiOAuth();
+    });
+     function CallApiOAuth() {
+
+        var apiParams = {
+            "ApiEndpointUrl": $('#ApiEndPoint').val(),
+            "token": $('#OAuthTokenForApi').val()
+        };
+        //console.log(JSON.stringify(apiParams));
+
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            data: apiParams,
+            async: true,
+            cache: false,
+            url: '/Home/CallApiWithBearerTokenAsync',
+            success: function (data) {
+                console.log(data);
+                $('#ApiResults').val(data);
+            },
+            error: function (xhr) {
+                //debugger;
+                console.log(xhr.responseText);
+                console.log("Error has occurred..");
+            }
+        });
+    }
+    $('.buttonCallApi2').click(function () {
+        console.log('.buttonCallApi2');
+        CallApi2();
+    });
+</script> 
